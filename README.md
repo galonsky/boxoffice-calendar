@@ -71,6 +71,29 @@ podman run --rm \
   boxoffice-calendar
 ```
 
+## CircleCI
+
+The repo includes CircleCI config at [.circleci/config.yml](/Users/galonsky/boxoffice/.circleci/config.yml). On every branch, CircleCI will:
+
+1. install `uv`
+2. run `uv sync`
+3. run `uv run pytest`
+4. build the container image
+5. push the image with two tags:
+   - the sanitized branch name
+   - the short git SHA
+
+Set these project environment variables in CircleCI:
+
+- `DOCKER_USERNAME`
+- `DOCKER_PASSWORD`
+- `DOCKER_IMAGE_REPOSITORY`
+
+Example `DOCKER_IMAGE_REPOSITORY` values:
+
+- `yourdockerhubuser/boxoffice-calendar`
+- `ghcr.io/your-org/boxoffice-calendar`
+
 ## Notes
 
 - The generated calendar is modern iCalendar (`.ics`), which is what calendar subscription clients expect.
