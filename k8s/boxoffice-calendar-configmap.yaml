@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: boxoffice-calendar-config
+data:
+  BOXOFFICE_S3_BUCKET: "your-bucket"
+  BOXOFFICE_S3_KEY: "calendar/boxoffice-releases.ics"
+  BOXOFFICE_S3_ENDPOINT_URL: "https://s3.us-east-1.amazonaws.com"
+  BOXOFFICE_OUTPUT_PATH: "/tmp/boxoffice-releases.ics"
+  AWS_REGION: "us-east-1"
+  AWS_ACCESS_KEY_ID: "your-access-key-id"
+  AWS_SECRET_ACCESS_KEY: "your-secret-access-key"
+  AWS_SESSION_TOKEN: "your-session-token"

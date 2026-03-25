@@ -74,6 +74,37 @@ podman run --rm \
   boxoffice-calendar
 ```
 
+## Kubernetes
+
+Example manifests are included at [k8s/boxoffice-calendar-configmap.yaml](/Users/galonsky/boxoffice/k8s/boxoffice-calendar-configmap.yaml) and [k8s/boxoffice-calendar-cronjob.yaml](/Users/galonsky/boxoffice/k8s/boxoffice-calendar-cronjob.yaml).
+
+Update the placeholder values in the ConfigMap, then apply the resources with `kubectl`:
+
+```bash
+kubectl apply -f k8s/boxoffice-calendar-configmap.yaml
+kubectl apply -f k8s/boxoffice-calendar-cronjob.yaml
+```
+
+That creates:
+
+- a `ConfigMap` named `boxoffice-calendar-config`
+- a `CronJob` named `boxoffice-calendar` that runs every day at `9:00 AM` in `America/New_York`
+
+To verify the resources:
+
+```bash
+kubectl get configmap boxoffice-calendar-config
+kubectl get cronjob boxoffice-calendar
+kubectl describe cronjob boxoffice-calendar
+```
+
+If you want to remove them later:
+
+```bash
+kubectl delete -f k8s/boxoffice-calendar-cronjob.yaml
+kubectl delete -f k8s/boxoffice-calendar-configmap.yaml
+```
+
 ## CircleCI
 
 The repo includes CircleCI config at [.circleci/config.yml](/Users/galonsky/boxoffice/.circleci/config.yml). On every branch, CircleCI will:

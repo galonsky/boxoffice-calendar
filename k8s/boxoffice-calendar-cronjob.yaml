@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: boxoffice-calendar
+spec:
+  schedule: "0 9 * * *"
+  timeZone: America/New_York
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: boxoffice-calendar
+              image: galonsky/boxoffice-calendar:0.0.1
+              imagePullPolicy: IfNotPresent
+              envFrom:
+                - configMapRef:
+                    name: boxoffice-calendar-config
