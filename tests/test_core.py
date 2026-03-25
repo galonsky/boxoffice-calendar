@@ -118,12 +118,28 @@ def test_build_ics_outputs_all_day_events() -> None:
 
 def test_upload_calendar_to_s3_sets_calendar_content_type(monkeypatch: pytest.MonkeyPatch) -> None:
     client = Mock()
-    monkeypatch.setattr("boxoffice_calendar.core.boto3.client", lambda service: client)
+    boto3_client = Mock(return_value=client)
+    monkeypatch.setattr("boxoffice_calendar.core.boto3.client", boto3_client)
 
     upload_calendar_to_s3("BEGIN:VCALENDAR\r\nEND:VCALENDAR\r\n", "bucket-name", "key.ics")
 
+    boto3_client.assert_called_once_with("s3")
     client.put_object.assert_called_once()
     kwargs = client.put_object.call_args.kwargs
     assert kwargs["Bucket"] == "bucket-name"
     assert kwargs["Key"] == "key.ics"
     assert kwargs["ContentType"] == "text/calendar; charset=utf-8"
+
+
+def test_upload_calendar_to_s3_uses_custom_endpoint_when_configured(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    client = Mock()
+    boto3_client = Mock(return_value=client)
+    monkeypatch.setattr("boxoffice_calendar.core.boto3.client", boto3_client)
+    monkeypatch.setenv("BOXOFFICE_S3_ENDPOINT_URL", "http://localhost:9000")
+
+    upload_calendar_to_s3("BEGIN:VCALENDAR\r\nEND:VCALENDAR\r\n", "bucket-name", "key.ics")
+
+    boto3_client.assert_called_once_with("s3", endpoint_url="http://localhost:9000")
+    client.put_object.assert_called_once()

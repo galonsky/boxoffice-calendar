@@ -211,7 +211,9 @@ def write_calendar_file(contents: str, output_path: Path) -> None:
 
 
 def upload_calendar_to_s3(contents: str, bucket: str, key: str) -> None:
-    client = boto3.client("s3")
+    endpoint_url = os.environ.get("BOXOFFICE_S3_ENDPOINT_URL")
+    client_kwargs = {"endpoint_url": endpoint_url} if endpoint_url else {}
+    client = boto3.client("s3", **client_kwargs)
     client.put_object(
         Bucket=bucket,
         Key=key,

@@ -12,6 +12,7 @@ Scrapes the Box Office Mojo domestic release calendar, generates an iCalendar `.
 
 - `BOXOFFICE_S3_BUCKET`: destination S3 bucket
 - `BOXOFFICE_S3_KEY`: destination object key, for example `calendar/boxoffice-releases.ics`
+- `BOXOFFICE_S3_ENDPOINT_URL`: optional custom S3-compatible endpoint URL
 - `BOXOFFICE_OUTPUT_PATH`: optional local output path, defaults to `./dist/boxoffice-releases.ics`
 
 Standard AWS environment variables such as `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_SESSION_TOKEN`, and `AWS_REGION` are supported through `boto3`.
@@ -30,6 +31,7 @@ Run the scraper locally:
 ```bash
 export BOXOFFICE_S3_BUCKET=your-bucket
 export BOXOFFICE_S3_KEY=calendar/boxoffice-releases.ics
+export BOXOFFICE_S3_ENDPOINT_URL=https://s3.us-east-1.amazonaws.com
 uv run boxoffice-calendar
 ```
 
@@ -65,6 +67,7 @@ Run it with environment variables:
 podman run --rm \
   -e BOXOFFICE_S3_BUCKET=your-bucket \
   -e BOXOFFICE_S3_KEY=calendar/boxoffice-releases.ics \
+  -e BOXOFFICE_S3_ENDPOINT_URL=https://s3.us-east-1.amazonaws.com \
   -e AWS_REGION=us-east-1 \
   -e AWS_ACCESS_KEY_ID=... \
   -e AWS_SECRET_ACCESS_KEY=... \
