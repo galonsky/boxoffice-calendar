@@ -196,7 +196,7 @@ def build_ics(releases: Iterable[Release], generated_at: datetime | None = None)
                 f"SUMMARY:{_escape_ics_text(release.title)}",
                 f"DTSTART;VALUE=DATE:{start_value}",
                 f"DTEND;VALUE=DATE:{end_value}",
-                f"DESCRIPTION:{_escape_ics_text('\\n'.join(description_parts))}",
+                f"DESCRIPTION:{_escape_ics_text('\n'.join(description_parts))}",
                 "END:VEVENT",
             ]
         )

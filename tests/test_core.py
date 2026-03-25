@@ -114,6 +114,11 @@ def test_build_ics_outputs_all_day_events() -> None:
     assert "DTEND;VALUE=DATE:20260321" in unfolded
     assert "Distributor: Amazon MGM Studios" in unfolded
     assert "Scale: Wide" in unfolded
+    assert (
+        "DESCRIPTION:Release date: 2026-03-20\\nDistributor: Amazon MGM Studios"
+        in unfolded
+    )
+    assert "\\\\nDistributor" not in unfolded
 
 
 def test_upload_calendar_to_s3_sets_calendar_content_type(monkeypatch: pytest.MonkeyPatch) -> None:
